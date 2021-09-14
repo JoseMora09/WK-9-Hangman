@@ -3,14 +3,16 @@ using System.Collections.Generic;
 
 namespace Hangman
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to Hangman!");
-            Console.WriteLine();
 
-            string[] wordList = { "apple", "grape", "orange", "strawberry", "pear" };
+            MessageInput.Messages();
+
+
+            string[] wordList = { "apple" , "orange", "grape" , "pear", "strawberry"};
+
 
             Random random = new Random();
             int wordListInt = random.Next(0, wordList.Length - 1);
@@ -18,13 +20,14 @@ namespace Hangman
             string chosenWord = wordList[wordListInt].ToLower();
             Console.WriteLine("The word has {0} characters", chosenWord.Length);
 
-            int remainingAttempts = 7;
+            int LivesRemaining = 7;
             List<string> alreadyGuessedLetters = new List<string>();
             string displayWord = "";
 
-            while (remainingAttempts > 0 && displayWord != chosenWord)
+            while (LivesRemaining > 0 && displayWord != chosenWord)
             {
-                Console.WriteLine("Remaining attempts: {0}", remainingAttempts);
+                Console.WriteLine("Remaining attempts: {0}", LivesRemaining);
+
 
                 Console.WriteLine("Enter a letter: ");
                 char[] input = Console.ReadLine().ToCharArray();
@@ -47,7 +50,7 @@ namespace Hangman
                 else
                 {
                     containedMessage = "{0} is NOT contained in the word.";
-                    remainingAttempts--;
+                    LivesRemaining--;
                 }
 
                 Console.WriteLine(containedMessage, guess);
@@ -66,12 +69,12 @@ namespace Hangman
 
                 Console.WriteLine(displayWord);
                 Console.WriteLine();
-            } 
+            }
 
-            if (remainingAttempts == 0)
+            if (LivesRemaining == 0)
             {
-                Console.WriteLine("You have ran out of attempts. You lose!");
-                Console.WriteLine("The word was: {0}", chosenWord);
+                MessageInput.EndMessages();
+                return;
             }
             else
             {
